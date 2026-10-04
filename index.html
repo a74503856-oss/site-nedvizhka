@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Domus — продажа недвижимости</title>
+  <meta name="description" content="Domus — агентство недвижимости. Квартиры, дома и коммерческие объекты с юридической проверкой и сопровождением сделки.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230f1d2e'/><path d='M8 16 16 9l8 7v8h-5v-5h-6v5H8z' fill='%23c9a46a'/></svg>">
+</head>
+<body>
+
+  <!-- Шапка -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#" class="logo">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 16 16 5l12 11v12h-8v-8h-8v8H4z"/></svg>
+        <span>Domus</span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#catalog">Каталог</a>
+        <a href="#services">Услуги</a>
+        <a href="#process">Как мы работаем</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+      <div class="header__actions">
+        <a href="tel:+74950000000" class="header__phone">+7 (495) 000-00-00</a>
+        <a href="#contact" class="btn btn--gold btn--sm">Консультация</a>
+        <button class="burger" id="burger" aria-label="Открыть меню"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="container hero__content">
+      <p class="eyebrow reveal">Агентство недвижимости · с 2009 года</p>
+      <h1 class="hero__title reveal">Дом, в который<br><em>хочется возвращаться</em></h1>
+      <p class="hero__text reveal">Подберём квартиру, дом или коммерческий объект под ваши задачи. Проверим юридическую чистоту и проведём сделку от просмотра до ключей.</p>
+
+      <form class="search reveal" id="searchForm">
+        <div class="search__tabs" role="tablist">
+          <button type="button" class="search__tab is-active" data-deal="sale">Купить</button>
+          <button type="button" class="search__tab" data-deal="rent">Арендовать</button>
+        </div>
+        <div class="search__fields">
+          <label class="field">
+            <span>Тип объекта</span>
+            <select name="type">
+              <option value="all">Любой</option>
+              <option value="flat">Квартира</option>
+              <option value="house">Дом</option>
+              <option value="commercial">Коммерция</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Район</span>
+            <select name="district">
+              <option value="all">Все районы</option>
+              <option>Центр</option>
+              <option>Хамовники</option>
+              <option>Пресненский</option>
+              <option>Подмосковье</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Комнат</span>
+            <select name="rooms">
+              <option value="all">Любое</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4+</option>
+            </select>
+          </label>
+          <button type="submit" class="btn btn--gold search__btn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            Найти
+          </button>
+        </div>
+      </form>
+
+      <div class="hero__stats">
+        <div class="stat reveal"><b data-count="1240">0</b><span>сделок закрыто</span></div>
+        <div class="stat reveal"><b data-count="16">0</b><span>лет на рынке</span></div>
+        <div class="stat reveal"><b data-count="98" data-suffix="%">0</b><span>довольных клиентов</span></div>
+      </div>
+    </div>
+    <a href="#catalog" class="hero__scroll" aria-label="Листать вниз"><span></span></a>
+  </section>
+
+  <!-- Каталог -->
+  <section class="section" id="catalog">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <p class="eyebrow">Каталог</p>
+          <h2 class="section__title">Избранные объекты</h2>
+        </div>
+        <div class="filters" id="filters">
+          <button class="chip is-active" data-filter="all">Все</button>
+          <button class="chip" data-filter="flat">Квартиры</button>
+          <button class="chip" data-filter="house">Дома</button>
+          <button class="chip" data-filter="commercial">Коммерция</button>
+        </div>
+      </div>
+
+      <div class="grid" id="grid"></div>
+      <p class="empty" id="empty" hidden>По выбранным параметрам ничего не найдено. Попробуйте изменить фильтры.</p>
+
+      <div class="center"><a href="#contact" class="btn btn--outline">Получить полную подборку</a></div>
+    </div>
+  </section>
+
+  <!-- Услуги -->
+  <section class="section section--dark" id="services">
+    <div class="container">
+      <div class="section__head section__head--center">
+        <p class="eyebrow">Почему Domus</p>
+        <h2 class="section__title">Берём на себя всё сложное</h2>
+        <p class="section__lead">Вы выбираете дом — мы занимаемся документами, переговорами и безопасностью сделки.</p>
+      </div>
+      <div class="features">
+        <article class="feature reveal">
+          <div class="feature__icon"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <h3>Юридическая проверка</h3>
+          <p>Проверяем историю объекта, собственников и обременения. Гарантируем чистоту сделки.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="feature__icon"><svg viewBox="0 0 24 24"><path d="M3 12h18M12 3v18"/><circle cx="12" cy="12" r="9"/></svg></div>
+          <h3>Подбор под задачу</h3>
+          <p>Покажем только подходящие варианты — без лишних поездок и потерянных выходных.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="feature__icon"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg></div>
+          <h3>Ипотека от 5,9%</h3>
+          <p>Работаем с 20+ банками. Поможем получить одобрение и выгодную ставку.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="feature__icon"><svg viewBox="0 0 24 24"><path d="M4 20V10l8-6 8 6v10z"/><path d="M10 20v-6h4v6"/></svg></div>
+          <h3>Продажа вашего объекта</h3>
+          <p>Оценка, профессиональная съёмка, продвижение и показы. Продаём в среднем за 34 дня.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Этапы -->
+  <section class="section" id="process">
+    <div class="container process">
+      <div class="process__media reveal">
+        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=80" alt="Светлая гостиная с большими окнами" loading="lazy">
+        <div class="process__badge">
+          <b>34 дня</b>
+          <span>средний срок сделки</span>
+        </div>
+      </div>
+      <div class="process__body">
+        <p class="eyebrow">Как мы работаем</p>
+        <h2 class="section__title">Четыре шага до новоселья</h2>
+        <ol class="steps">
+          <li class="reveal"><span>01</span><div><h4>Знакомство</h4><p>Обсуждаем бюджет, локацию и требования к объекту.</p></div></li>
+          <li class="reveal"><span>02</span><div><h4>Подборка и показы</h4><p>Готовим короткий список и организуем просмотры в удобное время.</p></div></li>
+          <li class="reveal"><span>03</span><div><h4>Проверка и торг</h4><p>Проверяем документы и договариваемся о лучшей цене.</p></div></li>
+          <li class="reveal"><span>04</span><div><h4>Сделка и ключи</h4><p>Безопасные расчёты, регистрация права и передача ключей.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Отзывы -->
+  <section class="section section--soft" id="reviews">
+    <div class="container">
+      <div class="section__head section__head--center">
+        <p class="eyebrow">Отзывы</p>
+        <h2 class="section__title">Нам доверяют</h2>
+      </div>
+      <div class="reviews">
+        <figure class="review reveal">
+          <div class="review__stars">★★★★★</div>
+          <blockquote>Нашли квартиру мечты за три недели. Всё прозрачно, документы проверили до последней запятой.</blockquote>
+          <figcaption><span class="avatar">АК</span><div><b>Анна К.</b><small>Купила квартиру в Хамовниках</small></div></figcaption>
+        </figure>
+        <figure class="review reveal">
+          <div class="review__stars">★★★★★</div>
+          <blockquote>Продали наш дом быстрее, чем рассчитывали, и по хорошей цене. Отличная съёмка и много показов.</blockquote>
+          <figcaption><span class="avatar">ИС</span><div><b>Игорь С.</b><small>Продал дом в Подмосковье</small></div></figcaption>
+        </figure>
+        <figure class="review reveal">
+          <div class="review__stars">★★★★★</div>
+          <blockquote>Помогли с ипотекой, когда два банка уже отказали. Спасибо за терпение и профессионализм!</blockquote>
+          <figcaption><span class="avatar">МВ</span><div><b>Мария В.</b><small>Первая квартира</small></div></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Контакты -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="cta">
+        <div class="cta__text">
+          <p class="eyebrow">Бесплатная консультация</p>
+          <h2 class="section__title">Расскажите, что ищете, — подберём за 24 часа</h2>
+          <ul class="cta__list">
+            <li>Персональная подборка объектов</li>
+            <li>Оценка стоимости вашей недвижимости</li>
+            <li>Расчёт ипотеки и налогового вычета</li>
+          </ul>
+          <div class="cta__contacts">
+            <a href="tel:+74950000000">+7 (495) 000-00-00</a>
+            <a href="mailto:hello@domus.ru">hello@domus.ru</a>
+          </div>
+        </div>
+        <form class="form" id="contactForm" novalidate>
+          <label class="field field--light"><span>Ваше имя</span><input name="name" required placeholder="Иван"></label>
+          <label class="field field--light"><span>Телефон</span><input name="phone" type="tel" required placeholder="+7 (___) ___-__-__"></label>
+          <label class="field field--light"><span>Что вас интересует</span>
+            <select name="topic">
+              <option>Купить недвижимость</option>
+              <option>Продать недвижимость</option>
+              <option>Арендовать</option>
+              <option>Ипотека</option>
+            </select>
+          </label>
+          <button class="btn btn--gold btn--block" type="submit">Оставить заявку</button>
+          <small class="form__note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</small>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a href="#" class="logo logo--light">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 16 16 5l12 11v12h-8v-8h-8v8H4z"/></svg>
+        <span>Domus</span>
+      </a>
+      <nav class="footer__nav">
+        <a href="#catalog">Каталог</a>
+        <a href="#services">Услуги</a>
+        <a href="#process">Этапы</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+      <p class="footer__copy">© <span id="year"></span> Domus. Москва, ул. Примерная, 1</p>
+    </div>
+  </footer>
+
+  <!-- Модальное окно объекта -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal__close" data-close aria-label="Закрыть">×</button>
+      <img class="modal__img" id="modalImg" alt="">
+      <div class="modal__body">
+        <p class="eyebrow" id="modalDistrict"></p>
+        <h3 id="modalTitle"></h3>
+        <p class="modal__price" id="modalPrice"></p>
+        <ul class="specs" id="modalSpecs"></ul>
+        <p id="modalDesc"></p>
+        <a href="#contact" class="btn btn--gold btn--block" data-close>Записаться на просмотр</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
