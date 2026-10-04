@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Domus — продажа недвижимости</title>
+  <meta name="description" content="Domus — агентство недвижимости. Квартиры, дома и коммерческие объекты с юридической проверкой и сопровождением сделки.">
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230f1d2e'/><path d='M8 16 16 9l8 7v8h-5v-5h-6v5H8z' fill='%23c9a46a'/></svg>">
+</head>
+<body>
+
+  <!-- Прелоадер -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <svg class="preloader__logo" viewBox="0 0 32 32" width="52" height="52"><path d="M4 16 16 5l12 11v12h-8v-8h-8v8H4z"/></svg>
+      <div class="preloader__name">Domus</div>
+      <div class="preloader__bar"><span id="preloaderBar"></span></div>
+      <div class="preloader__count" id="preloaderCount">0</div>
+    </div>
+  </div>
+
+  <!-- Индикатор прокрутки и курсор -->
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><span id="cursorLabel"></span></div>
+
+  <!-- Шапка -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#top" class="logo">
+        <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><path d="M4 16 16 5l12 11v12h-8v-8h-8v8H4z"/></svg>
+        <span>Domus</span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#catalog">Каталог</a>
+        <a href="#districts">Районы</a>
+        <a href="#services">Услуги</a>
+        <a href="#process">Как мы работаем</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+      <div class="header__actions">
+        <a href="tel:+74950000000" class="header__phone">+7 (495) 000-00-00</a>
+        <a href="#contact" class="btn btn--gold btn--sm" data-magnetic>Консультация</a>
+        <button class="burger" id="burger" aria-label="Открыть меню"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero: при прокрутке строится дом, затем раскрывается фото -->
+  <section class="hero" id="top">
+    <div class="hero__photo" id="heroPhoto">
+      <div class="hero__photo-img" id="heroPhotoImg"></div>
+      <div class="hero__shade" id="heroShade"></div>
+    </div>
+    <div class="hero__glow" aria-hidden="true"></div>
+
+    <div class="build" id="build" aria-hidden="true">
+      <div class="build__grid" id="buildGrid"></div>
+      <div class="container build__intro" id="buildIntro">
+        <p class="eyebrow">Domus · агентство недвижимости</p>
+        <p class="build__title" id="buildTitle">Каждый дом начинается <em>с первой линии</em></p>
+        <div class="build__hint" id="buildHint"><span class="mouse"></span>Прокрутите вниз — построим дом</div>
+      </div>
+      <svg class="house" id="house" viewBox="30 95 740 410" width="740" height="410">
+        <g id="houseWrap">
+          <g id="houseG" fill="none" stroke-linejoin="round">
+            <!-- окна, которые загораются светом -->
+            <path class="glass" d="M245 270h100v50H245z"/>
+            <path class="glass" d="M455 270h100v50H455z"/>
+            <path class="glass" d="M240 355h130v55H240z"/>
+            <path class="glass" d="M382 200a18 18 0 1 0 36 0a18 18 0 1 0-36 0"/>
+            <!-- 1. земля и фундамент -->
+            <path class="ln s1" d="M40 440H760"/>
+            <path class="ln s1" d="M180 440V425H620V440"/>
+            <!-- 2. стены -->
+            <path class="ln s2" d="M200 425V244"/>
+            <path class="ln s2" d="M600 425V244"/>
+            <path class="ln s2 thin" d="M200 335H600"/>
+            <path class="ln s2" d="M95 425V330"/>
+            <path class="ln s2" d="M82 330H200"/>
+            <!-- 3. крыша и труба -->
+            <path class="ln s3" d="M172 262L400 112L628 262"/>
+            <path class="ln s3 thin" d="M200 244L400 130L600 244"/>
+            <path class="ln s3" d="M505 181V122H535V201"/>
+            <!-- 4. окна, дверь, гараж, дерево -->
+            <path class="ln s4" d="M245 270h100v50H245z"/>
+            <path class="ln s4 thin" d="M295 270v50M245 295h100"/>
+            <path class="ln s4" d="M455 270h100v50H455z"/>
+            <path class="ln s4 thin" d="M505 270v50M455 295h100"/>
+            <path class="ln s4" d="M382 200a18 18 0 1 0 36 0a18 18 0 1 0-36 0"/>
+            <path class="ln s4" d="M240 355h130v55H240z"/>
+            <path class="ln s4 thin" d="M283 355v55M326 355v55"/>
+            <path class="ln s4" d="M445 345h60v80H445z"/>
+            <path class="ln s4 thin" d="M492 386h5"/>
+            <path class="ln s4" d="M112 425V355h70v70"/>
+            <path class="ln s4 thin" d="M112 372h70M112 389h70M112 406h70"/>
+            <path class="ln s4" d="M705 440V398"/>
+            <path class="ln s4" d="M705 398c-26 2-36-30-18-44c-4-22 24-34 38-16c22-4 30 26 14 40c6 16-14 24-34 20z"/>
+            <!-- 5. размеры, как на чертеже -->
+            <path class="ln s5 dim" d="M200 470H600M200 462v16M600 462v16"/>
+            <path class="ln s5 dim" d="M665 112V425M657 112h16M657 425h16"/>
+            <text class="dim-label" x="400" y="494" text-anchor="middle">12,4 м</text>
+            <text class="dim-label" x="676" y="274">9,8 м</text>
+          </g>
+        </g>
+      </svg>
+      <div class="build__steps" id="buildSteps">
+        <div class="build__labels">
+          <span class="is-active">Фундамент</span>
+          <span>Стены</span>
+          <span>Крыша</span>
+          <span>Окна и свет</span>
+          <span>Ваш дом</span>
+        </div>
+        <div class="build__bar"><i id="buildBar"></i></div>
+      </div>
+    </div>
+
+    <div class="container hero__content" id="heroContent">
+      <p class="eyebrow intro">Агентство недвижимости · с 2009 года</p>
+      <h1 class="hero__title" id="heroTitle">Дом, в который<br><em>хочется возвращаться</em></h1>
+      <p class="hero__text intro">Подберём квартиру, дом или коммерческий объект под ваши задачи. Проверим юридическую чистоту и проведём сделку от просмотра до ключей.</p>
+      <form class="search intro" id="searchForm">
+        <div class="search__tabs pill-group" role="tablist">
+          <span class="pill" aria-hidden="true"></span>
+          <button type="button" class="search__tab is-active" data-deal="sale">Купить</button>
+          <button type="button" class="search__tab" data-deal="rent">Арендовать</button>
+        </div>
+        <div class="search__fields">
+          <label class="field">
+            <span>Тип объекта</span>
+            <select name="type">
+              <option value="all">Любой</option>
+              <option value="flat">Квартира</option>
+              <option value="house">Дом</option>
+              <option value="commercial">Коммерция</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Район</span>
+            <select name="district">
+              <option value="all">Все районы</option>
+              <option>Центр</option>
+              <option>Хамовники</option>
+              <option>Пресненский</option>
+              <option>Подмосковье</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Комнат</span>
+            <select name="rooms">
+              <option value="all">Любое</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4+</option>
+            </select>
+          </label>
+          <button type="submit" class="btn btn--gold search__btn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            Найти
+          </button>
+        </div>
+      </form>
+
+      <div class="hero__stats">
+        <div class="stat intro"><b data-count="1240">0</b><span>сделок закрыто</span></div>
+        <div class="stat intro"><b data-count="16">0</b><span>лет на рынке</span></div>
+        <div class="stat intro"><b data-count="98" data-suffix="%">0</b><span>довольных клиентов</span></div>
+      </div>
+    </div>
+
+    <!-- Плавающие карточки -->
+    <div class="float-card float-card--object intro-float" data-depth="30">
+      <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80" alt="Современный дом" loading="lazy">
+      <div>
+        <small>Объект недели</small>
+        <b>Вилла в Барвихе</b>
+        <span>от 210 000 000 ₽</span>
+      </div>
+    </div>
+    <div class="float-card float-card--rating intro-float" data-depth="-20">
+      <div class="float-card__stars">★★★★★</div>
+      <b>4,9</b>
+      <span>600+ отзывов клиентов</span>
+    </div>
+
+  </section>
+
+  <!-- Бегущая строка -->
+  <div class="marquee" id="marquee" aria-hidden="true">
+    <div class="marquee__track" id="marqueeTrack">
+      <span>Квартиры</span><i>✦</i><span class="outline">Пентхаусы</span><i>✦</i><span>Загородные дома</span><i>✦</i><span class="outline">Коммерция</span><i>✦</i><span>Новостройки</span><i>✦</i><span class="outline">Аренда</span><i>✦</i>
+      <span>Квартиры</span><i>✦</i><span class="outline">Пентхаусы</span><i>✦</i><span>Загородные дома</span><i>✦</i><span class="outline">Коммерция</span><i>✦</i><span>Новостройки</span><i>✦</i><span class="outline">Аренда</span><i>✦</i>
+    </div>
+  </div>
+
+  <!-- Каталог -->
+  <section class="section" id="catalog">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <p class="eyebrow reveal">Каталог</p>
+          <h2 class="section__title split">Избранные <em>объекты</em></h2>
+        </div>
+        <div class="filters pill-group reveal" id="filters">
+          <span class="pill" aria-hidden="true"></span>
+          <button class="chip is-active" data-filter="all">Все</button>
+          <button class="chip" data-filter="flat">Квартиры</button>
+          <button class="chip" data-filter="house">Дома</button>
+          <button class="chip" data-filter="commercial">Коммерция</button>
+        </div>
+      </div>
+
+      <div class="grid" id="grid"></div>
+      <div class="empty" id="empty" hidden>
+        <p>По выбранным параметрам ничего не найдено.</p>
+        <button class="btn btn--outline btn--sm" id="resetFilters">Сбросить фильтры</button>
+      </div>
+
+      <div class="center reveal"><a href="#contact" class="btn btn--outline btn--arrow" data-magnetic>Получить полную подборку</a></div>
+    </div>
+  </section>
+
+  <!-- Районы: горизонтальная прокрутка -->
+  <section class="districts" id="districts">
+    <div class="districts__pin" id="districtsPin">
+      <div class="container districts__head">
+        <div>
+          <p class="eyebrow reveal">Районы</p>
+          <h2 class="section__title split">Где мы <em>работаем</em></h2>
+        </div>
+        <p class="districts__hint reveal">Листайте, чтобы увидеть все районы <span aria-hidden="true">→</span></p>
+      </div>
+      <div class="districts__track" id="districtsTrack">
+        <a href="#catalog" class="district" data-district="Центр">
+          <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=900&q=80" alt="Центр города" loading="lazy">
+          <span class="district__num">01</span>
+          <div class="district__info"><h3>Центр</h3><p>Исторические дома и лофты · от 18 млн ₽</p></div>
+        </a>
+        <a href="#catalog" class="district" data-district="Хамовники">
+          <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=900&q=80" alt="Интерьер квартиры в Хамовниках" loading="lazy">
+          <span class="district__num">02</span>
+          <div class="district__info"><h3>Хамовники</h3><p>Тихий престижный район у реки · от 25 млн ₽</p></div>
+        </a>
+        <a href="#catalog" class="district" data-district="Пресненский">
+          <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=900&q=80" alt="Вечерние небоскрёбы" loading="lazy">
+          <span class="district__num">03</span>
+          <div class="district__info"><h3>Пресненский</h3><p>Деловой центр и видовые квартиры · от 17 млн ₽</p></div>
+        </a>
+        <a href="#catalog" class="district" data-district="Подмосковье">
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80" alt="Загородный дом с бассейном" loading="lazy">
+          <span class="district__num">04</span>
+          <div class="district__info"><h3>Подмосковье</h3><p>Дома и коттеджи у леса и воды · от 35 млн ₽</p></div>
+        </a>
+        <a href="#contact" class="district district--cta">
+          <span class="district__num">05</span>
+          <div class="district__info">
+            <h3>Не нашли свой район?</h3>
+            <p>Подберём объект в любой части города и области.</p>
+            <span class="btn btn--gold btn--arrow">Оставить заявку</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Услуги -->
+  <section class="section section--dark" id="services">
+    <div class="container">
+      <div class="section__head section__head--center">
+        <p class="eyebrow reveal">Почему Domus</p>
+        <h2 class="section__title split">Берём на себя <em>всё сложное</em></h2>
+        <p class="section__lead reveal">Вы выбираете дом — мы занимаемся документами, переговорами и безопасностью сделки.</p>
+      </div>
+      <div class="features">
+        <article class="feature reveal">
+          <div class="feature__icon"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <h3>Юридическая проверка</h3>
+          <p>Проверяем историю объекта, собственников и обременения. Гарантируем чистоту сделки.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="feature__icon"><svg viewBox="0 0 24 24"><path d="M3 12h18M12 3v18"/><circle cx="12" cy="12" r="9"/></svg></div>
+          <h3>Подбор под задачу</h3>
+          <p>Покажем только подходящие варианты — без лишних поездок и потерянных выходных.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="feature__icon"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg></div>
+          <h3>Ипотека от 5,9%</h3>
+          <p>Работаем с 20+ банками. Поможем получить одобрение и выгодную ставку.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="feature__icon"><svg viewBox="0 0 24 24"><path d="M4 20V10l8-6 8 6v10z"/><path d="M10 20v-6h4v6"/></svg></div>
+          <h3>Продажа вашего объекта</h3>
+          <p>Оценка, профессиональная съёмка, продвижение и показы. Продаём в среднем за 34 дня.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Этапы -->
+  <section class="section" id="process">
+    <div class="container process">
+      <div class="process__media reveal">
+        <div class="process__frame">
+          <img id="processImg" src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=80" alt="Светлая гостиная с большими окнами" loading="lazy">
+        </div>
+        <div class="process__badge">
+          <b>34 дня</b>
+          <span>средний срок сделки</span>
+        </div>
+      </div>
+      <div class="process__body">
+        <p class="eyebrow reveal">Как мы работаем</p>
+        <h2 class="section__title split">Четыре шага <em>до новоселья</em></h2>
+        <ol class="steps" id="steps">
+          <li class="reveal"><span>01</span><div><h4>Знакомство</h4><p>Обсуждаем бюджет, локацию и требования к объекту.</p></div></li>
+          <li class="reveal"><span>02</span><div><h4>Подборка и показы</h4><p>Готовим короткий список и организуем просмотры в удобное время.</p></div></li>
+          <li class="reveal"><span>03</span><div><h4>Проверка и торг</h4><p>Проверяем документы и договариваемся о лучшей цене.</p></div></li>
+          <li class="reveal"><span>04</span><div><h4>Сделка и ключи</h4><p>Безопасные расчёты, регистрация права и передача ключей.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Отзывы -->
+  <section class="section section--soft" id="reviews">
+    <div class="container">
+      <div class="section__head section__head--center">
+        <p class="eyebrow reveal">Отзывы</p>
+        <h2 class="section__title split">Нам <em>доверяют</em></h2>
+      </div>
+      <div class="reviews">
+        <figure class="review reveal">
+          <div class="review__stars">★★★★★</div>
+          <blockquote>Нашли квартиру мечты за три недели. Всё прозрачно, документы проверили до последней запятой.</blockquote>
+          <figcaption><span class="avatar">АК</span><div><b>Анна К.</b><small>Купила квартиру в Хамовниках</small></div></figcaption>
+        </figure>
+        <figure class="review reveal">
+          <div class="review__stars">★★★★★</div>
+          <blockquote>Продали наш дом быстрее, чем рассчитывали, и по хорошей цене. Отличная съёмка и много показов.</blockquote>
+          <figcaption><span class="avatar">ИС</span><div><b>Игорь С.</b><small>Продал дом в Подмосковье</small></div></figcaption>
+        </figure>
+        <figure class="review reveal">
+          <div class="review__stars">★★★★★</div>
+          <blockquote>Помогли с ипотекой, когда два банка уже отказали. Спасибо за терпение и профессионализм!</blockquote>
+          <figcaption><span class="avatar">МВ</span><div><b>Мария В.</b><small>Первая квартира</small></div></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Контакты -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="cta" id="cta">
+        <div class="cta__text">
+          <p class="eyebrow">Бесплатная консультация</p>
+          <h2 class="section__title split">Расскажите, что ищете, — <em>подберём за 24 часа</em></h2>
+          <ul class="cta__list">
+            <li class="reveal">Персональная подборка объектов</li>
+            <li class="reveal">Оценка стоимости вашей недвижимости</li>
+            <li class="reveal">Расчёт ипотеки и налогового вычета</li>
+          </ul>
+          <div class="cta__contacts">
+            <a href="tel:+74950000000" class="link">+7 (495) 000-00-00</a>
+            <a href="mailto:hello@domus.ru" class="link">hello@domus.ru</a>
+          </div>
+        </div>
+        <form class="form reveal" id="contactForm" novalidate>
+          <label class="field field--light"><span>Ваше имя</span><input name="name" required placeholder="Иван"></label>
+          <label class="field field--light"><span>Телефон</span><input name="phone" type="tel" required placeholder="+7 (___) ___-__-__"></label>
+          <label class="field field--light"><span>Что вас интересует</span>
+            <select name="topic">
+              <option>Купить недвижимость</option>
+              <option>Продать недвижимость</option>
+              <option>Арендовать</option>
+              <option>Ипотека</option>
+            </select>
+          </label>
+          <button class="btn btn--gold btn--block btn--arrow" type="submit">Оставить заявку</button>
+          <small class="form__note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</small>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <a href="#top" class="logo logo--light">
+          <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><path d="M4 16 16 5l12 11v12h-8v-8h-8v8H4z"/></svg>
+          <span>Domus</span>
+        </a>
+        <nav class="footer__nav">
+          <a href="#catalog" class="link">Каталог</a>
+          <a href="#districts" class="link">Районы</a>
+          <a href="#services" class="link">Услуги</a>
+          <a href="#process" class="link">Этапы</a>
+          <a href="#contact" class="link">Контакты</a>
+        </nav>
+        <p class="footer__copy">© <span id="year"></span> Domus. Москва, ул. Примерная, 1</p>
+      </div>
+      <div class="footer__word" id="footerWord" aria-hidden="true">Domus</div>
+    </div>
+  </footer>
+
+  <!-- Кнопка «наверх» -->
+  <a href="#top" class="to-top" id="toTop" aria-label="Наверх">
+    <svg class="to-top__ring" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22"/><circle id="toTopRing" cx="24" cy="24" r="22"/></svg>
+    <svg class="to-top__arrow" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+  </a>
+
+  <!-- Модальное окно объекта -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="modalTitle" data-lenis-prevent>
+      <button class="modal__close" data-close aria-label="Закрыть">×</button>
+      <div class="modal__media"><img class="modal__img" id="modalImg" alt=""></div>
+      <div class="modal__body">
+        <p class="eyebrow" id="modalDistrict"></p>
+        <h3 id="modalTitle"></h3>
+        <p class="modal__price" id="modalPrice"></p>
+        <ul class="specs" id="modalSpecs"></ul>
+        <p id="modalDesc"></p>
+        <a href="#contact" class="btn btn--gold btn--block btn--arrow" data-close>Записаться на просмотр</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="vendor/lenis.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

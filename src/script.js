@@ -278,6 +278,7 @@ nav.addEventListener("click", e => { if (e.target.tagName === "A") setMenu(false
 
 /* ============ Шапка, прогресс, «наверх», активный пункт меню ============ */
 const header = $("#header"), progressBar = $("#progressBar"), toTop = $("#toTop"), ring = $("#toTopRing");
+const marquee = $("#marquee");
 const spy = $$("#nav a").map(a => [a, document.querySelector(a.getAttribute("href"))]);
 let lastY = window.scrollY;
 
@@ -291,7 +292,7 @@ function onScroll() {
   header.classList.toggle("is-hidden", y > lastY + 2 && y > 600 && !nav.classList.contains("is-open"));
   if (y < lastY - 2) header.classList.remove("is-hidden");
   lastY = y;
-  toTop.classList.toggle("is-visible", y > 700);
+  toTop.classList.toggle("is-visible", y > marquee.getBoundingClientRect().top + y - window.innerHeight * 0.5);
 
   let current = null;
   spy.forEach(([a, sec]) => { if (sec && sec.getBoundingClientRect().top < window.innerHeight * 0.4) current = a; });
@@ -310,6 +311,9 @@ $$(".btn").forEach(btn => {
   inner.textContent = t.textContent.trim();
   wrap.append(inner);
   btn.replaceChild(wrap, t);
+  if (btn.classList.contains("btn--arrow")) {
+    btn.insertAdjacentHTML("beforeend", '<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>');
+  }
 });
 
 document.addEventListener("pointerdown", e => {
@@ -424,10 +428,10 @@ function setupScrollAnimations() {
   gsap.set(".hero .intro", { opacity: 0, y: 40 });
   gsap.set(".intro-float", { opacity: 0, scale: 0.85 });
 
-  // Параллакс главного экрана
-  const heroST = { trigger: ".hero", start: "top top", end: "bottom top", scrub: true };
-  gsap.to("#heroBg", { yPercent: 16, ease: "none", scrollTrigger: heroST });
-  gsap.to("#heroContent", { y: -120, opacity: 0.15, ease: "none", scrollTrigger: { ...heroST } });
+  gsap.set("#heroContent", { autoAlpha: 0 });
+
+  // Главный экран: при прокрутке строится дом и раскрывается фото
+  setupBuildScene();
 
   // Заголовки секций — слова выезжают снизу
   $$(".split").forEach(el => {
@@ -524,15 +528,135 @@ function setupScrollAnimations() {
   window.addEventListener("load", () => ScrollTrigger.refresh());
 }
 
+/* ============ Сцена «строим дом» ============ */
+let buildWords = [];
+let countersStarted = false;
+const startCountersOnce = () => { if (!countersStarted) { countersStarted = true; startCounters(); } };
+
+// Силуэт дома в координатах чертежа — сквозь него проявляется фото
+const HOUSE_SHAPE = [[400, 112], [600, 243.6], [600, 425], [200, 425], [200, 243.6]];
+const HOUSE_CENTER = [400, 268.5];
+
+// Переводит точку чертежа в пиксели относительно блока с фото
+function houseToScreen() {
+  const svg = $("#house"), box = $("#heroPhoto").getBoundingClientRect();
+  const m = svg.getScreenCTM(), pt = svg.createSVGPoint();
+  return ([x, y]) => {
+    pt.x = x; pt.y = y;
+    const r = pt.matrixTransform(m);
+    return [r.x - box.left, r.y - box.top];
+  };
+}
+
+// Во сколько раз увеличить силуэт, чтобы он с запасом закрыл экран
+function houseCoverScale() {
+  const map = houseToScreen();
+  const w = map([600, 0])[0] - map([200, 0])[0];
+  const h = map([0, 425])[1] - map([0, 112])[1];
+  return 2.6 * Math.max(window.innerWidth / w, window.innerHeight / h);
+}
+
+function housePolygon(scale) {
+  const map = houseToScreen();
+  const [cx, cy] = map(HOUSE_CENTER);
+  return "polygon(" + HOUSE_SHAPE.map(p => {
+    const [x, y] = map(p);
+    return `${(cx + (x - cx) * scale).toFixed(1)}px ${(cy + (y - cy) * scale).toFixed(1)}px`;
+  }).join(", ") + ")";
+}
+
+function updateBuildSteps(time, labels) {
+  const order = ["s1", "s2", "s3", "s4", "s5"];
+  let idx = 0;
+  order.forEach((l, i) => { if (time >= labels[l]) idx = i; });
+  $$(".build__labels span").forEach((sp, i) => {
+    sp.classList.toggle("is-active", i === idx);
+    sp.classList.toggle("is-done", i < idx);
+  });
+  $("#buildBar").style.transform = `scaleX(${Math.min(time / labels.s5, 1)})`;
+}
+
+function setupBuildScene() {
+  const houseG = $("#houseG");
+
+  // Бледный эскиз дома, поверх которого «рисуются» золотые линии
+  const ghost = houseG.cloneNode(true);
+  ghost.removeAttribute("id");
+  ghost.classList.add("ghost");
+  houseG.before(ghost);
+
+  const lines = $$(".ln", houseG);
+  lines.forEach(l => l.setAttribute("pathLength", "1"));
+  gsap.set(lines, { strokeDasharray: 1, strokeDashoffset: 1 });
+
+  buildWords = splitWords($("#buildTitle"));
+  gsap.set(buildWords, { yPercent: 115 });
+  gsap.set("#buildIntro .eyebrow, #buildHint, #buildSteps", { opacity: 0, y: 20 });
+  gsap.set("#buildGrid", { opacity: 0 });
+  gsap.set("#heroShade", { opacity: 0 });
+
+  // Силуэт с фото пересчитываем на каждом кадре: так он точно совпадает с линиями дома
+  const reveal = { s: 1 };
+  const photo = $("#heroPhoto");
+  const applyClip = () => { photo.style.clipPath = housePolygon(reveal.s); };
+  applyClip();
+  ScrollTrigger.addEventListener("refresh", applyClip);
+
+  const s = sel => $$(sel, houseG);
+  const tl = gsap.timeline({
+    defaults: { ease: "none" },
+    onUpdate() { updateBuildSteps(this.time(), this.labels); },
+    scrollTrigger: {
+      trigger: ".hero", start: "top top", end: () => "+=" + window.innerHeight * 2.6,
+      pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true
+    }
+  });
+
+  tl.to("#buildIntro", { opacity: 0, y: -50, duration: 1 }, 0)
+    .fromTo("#buildHint", { opacity: 1 }, { opacity: 0, duration: 0.5, immediateRender: false }, 0)
+    // 1. фундамент
+    .addLabel("s1", 0.3)
+    .to(s(".s1"), { strokeDashoffset: 0, duration: 1.2, stagger: 0.3 }, "s1")
+    // 2. стены
+    .addLabel("s2", 1.6)
+    .to(s(".s2"), { strokeDashoffset: 0, duration: 1.2, stagger: 0.15 }, "s2")
+    // 3. крыша
+    .addLabel("s3", 3)
+    .to(s(".s3"), { strokeDashoffset: 0, duration: 1.2, stagger: 0.2 }, "s3")
+    // 4. окна, двери, размеры; окна загораются
+    .addLabel("s4", 4.4)
+    .to(s(".s4"), { strokeDashoffset: 0, duration: 1, stagger: 0.06 }, "s4")
+    .to(s(".s5"), { strokeDashoffset: 0, duration: 0.8 }, "s4+=0.8")
+    .to(s(".dim-label"), { opacity: 1, duration: 0.5 }, "s4+=1.3")
+    .to(s(".glass"), { fillOpacity: 0.9, duration: 0.6, stagger: 0.15 }, "s4+=1.4")
+    // 5. фото проявляется в силуэте дома и раскрывается на весь экран
+    .addLabel("s5", 6.6)
+    .fromTo("#heroPhoto", { opacity: 0 }, { opacity: 1, duration: 0.6 }, "s5")
+    .fromTo(reveal, { s: 1 }, { s: () => houseCoverScale(), duration: 2.4, ease: "power2.inOut", onUpdate: applyClip, immediateRender: false }, "s5+=0.6")
+    .fromTo("#heroPhotoImg", { scale: 1.35 }, { scale: 1, duration: 2.4, ease: "power2.inOut" }, "s5+=0.6")
+    .to("#houseWrap", { scale: () => houseCoverScale(), svgOrigin: HOUSE_CENTER.join(" "), duration: 2.4, ease: "power2.inOut" }, "s5+=0.6")
+    .to("#houseWrap", { opacity: 0, duration: 1.2 }, "s5+=1.4")
+    .to("#buildSteps", { opacity: 0, y: 20, duration: 0.6 }, "s5")
+    .to(s(".glass"), { fillOpacity: 0, duration: 0.8 }, "s5+=0.5")
+    .to("#buildGrid", { opacity: 0, duration: 1 }, "s5+=0.6")
+    .to("#heroShade", { opacity: 1, duration: 1.4 }, "s5+=1.6")
+    // 6. появляется основной текст
+    .addLabel("content", 9)
+    .set("#heroContent", { autoAlpha: 1 }, "content")
+    .to(heroWords, { yPercent: 0, duration: 1, stagger: 0.08, ease: "power3.out" }, "content")
+    .to(".hero .intro", { opacity: 1, y: 0, duration: 1, stagger: 0.12, ease: "power3.out" }, "content+=0.3")
+    .to(".intro-float", { opacity: 1, scale: 1, duration: 1, stagger: 0.2, ease: "power3.out" }, "content+=0.6")
+    .call(startCountersOnce, null, "content+=0.8")
+    .to({}, { duration: 0.6 });
+}
+
 function playIntro() {
   if (!hasGsap) { startCounters(); return; }
   gsap.timeline({ defaults: { ease: "expo.out" } })
-    .fromTo("#heroBgImg", { scale: 1.25 }, { scale: 1, duration: 2.6, ease: "power3.out" }, 0)
-    .from("#header", { opacity: 0, duration: 1.2, clearProps: "opacity" }, 0.2)
-    .to(heroWords, { yPercent: 0, duration: 1.4, stagger: 0.08 }, 0.15)
-    .to(".hero .intro", { opacity: 1, y: 0, duration: 1.3, stagger: 0.1 }, 0.5)
-    .to(".intro-float", { opacity: 1, scale: 1, duration: 1.5, stagger: 0.15 }, 0.8)
-    .add(startCounters, 0.9);
+    .from("#header", { opacity: 0, duration: 1.2, clearProps: "opacity" }, 0.1)
+    .to("#buildGrid", { opacity: 1, duration: 2, ease: "power2.out" }, 0)
+    .to(buildWords, { yPercent: 0, duration: 1.4, stagger: 0.08 }, 0.2)
+    .to("#buildIntro .eyebrow, #buildSteps, #buildHint", { opacity: 1, y: 0, duration: 1.2, stagger: 0.12 }, 0.5);
 }
 
 /* ============ Прелоадер ============ */
