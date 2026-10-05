@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /send.php
+Disallow: /config.php
+
+Sitemap: https://example.ru/sitemap.xml
+Host: https://example.ru
