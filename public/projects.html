@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <title>Проекты домов</title>
+  <meta name="description" content="Каталог проектов домов: фото, планировки, площадь и стоимость строительства.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/img/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header" data-header></header>
+  <section class="section">
+    <div class="container">
+      <div class="section__head">
+        <span class="eyebrow">Каталог</span>
+        <h1>Проекты домов</h1>
+        <p>Реализованные и типовые проекты. Нажмите на карточку, чтобы посмотреть фото и описание.</p>
+      </div>
+      <div class="filters" data-filters></div>
+      <div class="grid grid--3" data-list></div>
+    </div>
+  </section>
+  <section class="section section--alt">
+    <div class="container" style="text-align:center">
+      <h2>Не нашли подходящий проект?</h2>
+      <p class="muted">Разработаем индивидуальный проект под ваш участок и бюджет.</p>
+      <button class="btn" data-open-callback="Индивидуальный проект">Получить консультацию</button>
+    </div>
+  </section>
+  <footer class="footer" data-footer></footer>
+  <script src="/js/common.js"></script>
+  <script src="/js/projects.js"></script>
+</body>
+</html>

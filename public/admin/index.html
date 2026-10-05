@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Админ-панель</title>
+  <link rel="icon" href="/img/logo.svg">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin">
+  <!-- Вход -->
+  <div class="login hidden" id="login">
+    <form class="card form" id="login-form">
+      <img src="/img/logo.svg" alt="" width="48" height="48">
+      <h2>Вход в админ-панель</h2>
+      <label class="field"><span>Пароль</span><input type="password" name="password" required autofocus autocomplete="current-password"></label>
+      <button class="btn btn--block" type="submit">Войти</button>
+      <div class="form__msg form__msg--err hidden" id="login-err"></div>
+    </form>
+  </div>
+
+  <!-- Панель -->
+  <div class="panel hidden" id="panel">
+    <aside class="sidebar">
+      <a class="logo" href="/" target="_blank"><img src="/img/logo.svg" alt="">Сайт ↗</a>
+      <nav class="side-nav">
+        <button data-tab="leads" class="active">Заявки <span class="count" id="leads-count"></span></button>
+        <button data-tab="projects">Проекты домов</button>
+        <button data-tab="videos">Видео</button>
+        <button data-tab="cameras">Камеры</button>
+        <button data-tab="settings">Настройки и калькулятор</button>
+      </nav>
+      <button class="btn btn--ghost btn--sm" id="logout">Выйти</button>
+    </aside>
+
+    <main class="main">
+      <!-- Заявки -->
+      <section data-pane="leads">
+        <div class="pane-head"><h1>Заявки</h1></div>
+        <div id="leads-list"></div>
+      </section>
+
+      <!-- Проекты -->
+      <section data-pane="projects" class="hidden">
+        <div class="pane-head"><h1>Проекты домов</h1><button class="btn btn--sm" id="project-new">+ Добавить проект</button></div>
+        <form class="card form hidden" id="project-form">
+          <h3 id="project-form-title">Новый проект</h3>
+          <input type="hidden" name="id">
+          <div class="form-grid">
+            <label class="field wide"><span>Название *</span><input type="text" name="title" required placeholder="Дом «Скандинавия» 145 м²"></label>
+            <label class="field"><span>Площадь, м²</span><input type="number" name="area" min="0" step="0.1"></label>
+            <label class="field"><span>Этажность</span><input type="text" name="floors" placeholder="2 или 1 + мансарда"></label>
+            <label class="field"><span>Спальни</span><input type="number" name="bedrooms" min="0"></label>
+            <label class="field"><span>Санузлы</span><input type="number" name="bathrooms" min="0"></label>
+            <label class="field"><span>Габариты</span><input type="text" name="size" placeholder="10 × 12 м"></label>
+            <label class="field"><span>Технология</span><input type="text" name="material" list="materials-list" placeholder="Газобетон"></label>
+            <label class="field"><span>Цена от, ₽</span><input type="number" name="price" min="0" step="1000"></label>
+            <label class="field"><span>Приоритет (выше — раньше)</span><input type="number" name="order" min="0" value="0"></label>
+            <label class="field wide"><span>Описание</span><textarea name="description" rows="7" placeholder="Планировка, особенности, что входит в стоимость…"></textarea></label>
+          </div>
+          <datalist id="materials-list"></datalist>
+          <div class="field">
+            <span>Фотографии (первое фото — обложка; перетаскивайте стрелками)</span>
+            <div class="photos" id="project-photos"></div>
+            <label class="dropzone" id="project-drop">
+              <input type="file" name="photos" accept="image/*" multiple>
+              <b>Нажмите или перетащите фото сюда</b><small>JPG, PNG, WEBP. Можно сразу несколько.</small>
+            </label>
+          </div>
+          <label class="check"><input type="checkbox" name="published" checked> Показывать на сайте</label>
+          <div class="progress hidden"><div></div></div>
+          <div class="actions">
+            <button class="btn" type="submit">Сохранить</button>
+            <button class="btn btn--ghost" type="button" data-cancel>Отмена</button>
+          </div>
+        </form>
+        <div id="projects-list" class="list"></div>
+      </section>
+
+      <!-- Видео -->
+      <section data-pane="videos" class="hidden">
+        <div class="pane-head"><h1>Видео</h1><button class="btn btn--sm" id="video-new">+ Добавить видео</button></div>
+        <form class="card form hidden" id="video-form">
+          <h3 id="video-form-title">Новое видео</h3>
+          <input type="hidden" name="id">
+          <div class="form-grid">
+            <label class="field wide"><span>Название *</span><input type="text" name="title" required></label>
+            <label class="field"><span>Раздел</span>
+              <select name="category">
+                <option value="projects">Видео проектов</option>
+                <option value="reviews">Отзывы</option>
+                <option value="works">Видео работ</option>
+              </select>
+            </label>
+            <label class="field"><span>Приоритет (выше — раньше)</span><input type="number" name="order" min="0" value="0"></label>
+            <label class="field wide"><span>Описание</span><textarea name="description" rows="3"></textarea></label>
+          </div>
+          <div data-source-block>
+            <div class="seg">
+              <label><input type="radio" name="sourceType" value="url" checked> Ссылка (YouTube, Rutube, VK)</label>
+              <label><input type="radio" name="sourceType" value="file"> Загрузить файл</label>
+            </div>
+            <label class="field" data-src="url"><span>Ссылка на видео</span><input type="url" name="url" placeholder="https://rutube.ru/video/…"></label>
+            <label class="dropzone hidden" data-src="file">
+              <input type="file" name="video" accept="video/mp4,video/webm,video/quicktime,.m4v">
+              <b>Выберите видеофайл</b><small>MP4 (H.264) — лучший вариант для всех браузеров. До 1 ГБ.</small>
+            </label>
+          </div>
+          <label class="field"><span>Обложка (необязательно, для загруженных файлов)</span><input type="file" name="poster" accept="image/*"></label>
+          <label class="check"><input type="checkbox" name="published" checked> Показывать на сайте</label>
+          <div class="progress hidden"><div></div></div>
+          <div class="actions">
+            <button class="btn" type="submit">Сохранить</button>
+            <button class="btn btn--ghost" type="button" data-cancel>Отмена</button>
+          </div>
+        </form>
+        <div id="videos-list" class="list"></div>
+      </section>
+
+      <!-- Камеры -->
+      <section data-pane="cameras" class="hidden">
+        <div class="pane-head"><h1>Камеры на объектах</h1><button class="btn btn--sm" id="camera-new">+ Добавить камеру</button></div>
+        <div class="card help">
+          <b>Как подключить камеру.</b> Браузер не умеет показывать RTSP-поток камеры напрямую, поэтому нужен облачный сервис
+          или медиасервер, который отдаёт ссылку для сайта:
+          <ul>
+            <li><b>Облачные сервисы</b> (Ivideon, RTSP.me, Облако Ростелеком, IPEYE и др.) — подключаете камеру в сервисе,
+              копируете ссылку «для встраивания на сайт» (iframe) и вставляете сюда. Самый простой способ.</li>
+            <li><b>YouTube / VK / Rutube Live</b> — запускаете трансляцию с камеры и вставляете ссылку на эфир.</li>
+            <li><b>HLS-поток (.m3u8)</b> — если у вас свой медиасервер (go2rtc, MediaMTX, Flussonic).</li>
+            <li><b>Снимок (JPEG)</b> — многие камеры отдают картинку по ссылке; на сайте она обновляется каждые 5 секунд.</li>
+          </ul>
+        </div>
+        <form class="card form hidden" id="camera-form">
+          <h3 id="camera-form-title">Новая камера</h3>
+          <input type="hidden" name="id">
+          <div class="form-grid">
+            <label class="field"><span>Название *</span><input type="text" name="title" required placeholder="Объект в КП «Лесной», камера 1"></label>
+            <label class="field"><span>Тип</span>
+              <select name="type">
+                <option value="auto">Определить автоматически</option>
+                <option value="iframe">Встраиваемый плеер (iframe)</option>
+                <option value="hls">HLS-поток (.m3u8)</option>
+                <option value="image">Снимок JPEG (обновление 5 с)</option>
+              </select>
+            </label>
+            <label class="field wide"><span>Ссылка *</span><input type="url" name="url" required placeholder="https://…"></label>
+            <label class="field wide"><span>Описание</span><input type="text" name="description"></label>
+          </div>
+          <label class="check"><input type="checkbox" name="published" checked> Показывать на сайте</label>
+          <div class="actions">
+            <button class="btn" type="submit">Сохранить</button>
+            <button class="btn btn--ghost" type="button" data-cancel>Отмена</button>
+          </div>
+        </form>
+        <div id="cameras-list" class="list"></div>
+      </section>
+
+      <!-- Настройки -->
+      <section data-pane="settings" class="hidden">
+        <div class="pane-head"><h1>Настройки сайта</h1></div>
+        <form class="form" id="settings-form">
+          <div class="card">
+            <h3>Компания и контакты</h3>
+            <div class="form-grid">
+              <label class="field"><span>Название компании</span><input type="text" name="companyName"></label>
+              <label class="field"><span>Телефон</span><input type="text" name="phone"></label>
+              <label class="field wide"><span>Слоган (заголовок на главной)</span><input type="text" name="tagline"></label>
+              <label class="field wide"><span>О компании</span><textarea name="about" rows="5"></textarea></label>
+              <label class="field"><span>E-mail</span><input type="text" name="email"></label>
+              <label class="field"><span>Режим работы</span><input type="text" name="workHours"></label>
+              <label class="field wide"><span>Адрес</span><input type="text" name="address"></label>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Цифры на главной</h3>
+            <div class="rows" data-rows="stats" data-cols='[["value","Значение","text"],["label","Подпись","text"]]'></div>
+          </div>
+          <div class="card">
+            <h3>Преимущества</h3>
+            <div class="rows" data-rows="advantages" data-cols='[["title","Заголовок","text"],["text","Текст","text"]]'></div>
+          </div>
+          <div class="card">
+            <h3>Калькулятор</h3>
+            <p class="muted">Стоимость = площадь × цена за м² технологии × коэффициент этажности × коэффициент комплектации + доп. опции.</p>
+            <h4>Технологии (цена за м², ₽)</h4>
+            <div class="rows" data-rows="calculator.materials" data-cols='[["name","Название","text"],["price","₽ за м²","number"]]'></div>
+            <h4>Этажность (коэффициент)</h4>
+            <div class="rows" data-rows="calculator.floors" data-cols='[["name","Название","text"],["k","Коэфф.","number"]]'></div>
+            <h4>Комплектация (коэффициент)</h4>
+            <div class="rows" data-rows="calculator.finishes" data-cols='[["name","Название","text"],["k","Коэфф.","number"]]'></div>
+            <h4>Дополнительные опции (фиксированная цена, ₽)</h4>
+            <div class="rows" data-rows="calculator.extras" data-cols='[["name","Название","text"],["price","₽","number"]]'></div>
+            <label class="field"><span>Примечание под расчётом</span><input type="text" name="calculator.note"></label>
+          </div>
+          <div class="actions sticky-actions">
+            <button class="btn" type="submit">Сохранить настройки</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

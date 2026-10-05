@@ -1,0 +1,18 @@
+{
+  "name": "site-nedvizhka",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Сайт строительной компании: главная с калькулятором, проекты домов, видео и камеры, админ-панель",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "multer": "^2.0.2"
+  }
+}
