@@ -11,26 +11,34 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body class="has-hero">
   <header class="header" data-header></header>
 
-  <section class="section section--dark" id="cameras" data-cameras-wrap>
+  <section class="page-hero">
+    <div class="blob blob--1"></div>
+    <div class="container">
+      <span class="eyebrow fade-up">Видео</span>
+      <h1 data-split>Видео и камеры на объектах</h1>
+      <p class="fade-up" style="--d:400ms">Обзоры проектов, отзывы клиентов, процесс строительства и прямой эфир со стройки.</p>
+    </div>
+  </section>
+
+  <section class="section section--alt" id="cameras" data-cameras-wrap>
     <div class="container">
       <div class="section__head">
         <span class="live-dot">Прямой эфир</span>
-        <h2 style="margin-top:8px">Камеры на объектах</h2>
+        <h2 style="margin-top:10px">Камеры на объектах</h2>
         <p>Наблюдайте за строительством в реальном времени.</p>
       </div>
       <div class="grid grid--2" data-cameras></div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="videos">
     <div class="container">
       <div class="section__head">
-        <span class="eyebrow">Видео</span>
-        <h1>Видео наших работ</h1>
-        <p>Обзоры проектов, отзывы клиентов и процесс строительства.</p>
+        <span class="eyebrow">Наши видео</span>
+        <h2>Проекты, отзывы и работы</h2>
       </div>
       <div class="tabs" role="tablist">
         <button class="tab active" data-cat="">Все</button>
@@ -38,12 +46,16 @@
         <button class="tab" data-cat="reviews">Отзывы</button>
         <button class="tab" data-cat="works">Видео работ</button>
       </div>
-      <div class="grid grid--3" data-videos></div>
+      <div class="grid grid--3" data-videos>
+        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+      </div>
     </div>
   </section>
 
   <footer class="footer" data-footer></footer>
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js" defer></script>
+  <script src="/vendor/hls.min.js" defer></script>
+  <script src="/vendor/lenis.min.js"></script>
+  <script src="/js/motion.js"></script>
   <script src="/js/common.js"></script>
   <script src="/js/video.js" defer></script>
 </body>

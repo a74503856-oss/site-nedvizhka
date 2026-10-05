@@ -11,27 +11,36 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body class="has-hero">
   <header class="header" data-header></header>
-  <section class="section">
+  <section class="page-hero">
+    <div class="blob blob--1"></div>
     <div class="container">
-      <div class="section__head">
-        <span class="eyebrow">Каталог</span>
-        <h1>Проекты домов</h1>
-        <p>Реализованные и типовые проекты. Нажмите на карточку, чтобы посмотреть фото и описание.</p>
-      </div>
-      <div class="filters" data-filters></div>
-      <div class="grid grid--3" data-list></div>
+      <span class="eyebrow fade-up">Каталог</span>
+      <h1 data-split>Проекты домов</h1>
+      <p class="fade-up" style="--d:400ms">Реализованные и типовые проекты. Нажмите на карточку, чтобы посмотреть фото и описание.</p>
     </div>
   </section>
-  <section class="section section--alt">
-    <div class="container" style="text-align:center">
-      <h2>Не нашли подходящий проект?</h2>
-      <p class="muted">Разработаем индивидуальный проект под ваш участок и бюджет.</p>
-      <button class="btn" data-open-callback="Индивидуальный проект">Получить консультацию</button>
+  <section class="section">
+    <div class="container">
+      <div class="filters" data-filters></div>
+      <div class="grid grid--3" data-list>
+        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="cta">
+        <h2>Не нашли подходящий проект?</h2>
+        <p>Разработаем индивидуальный проект под ваш участок и бюджет.</p>
+        <button class="btn" data-open-callback="Индивидуальный проект">Получить консультацию <span class="btn__arrow">→</span></button>
+      </div>
     </div>
   </section>
   <footer class="footer" data-footer></footer>
+  <script src="/vendor/lenis.min.js"></script>
+  <script src="/js/motion.js"></script>
   <script src="/js/common.js"></script>
   <script src="/js/projects.js"></script>
 </body>

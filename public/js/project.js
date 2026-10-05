@@ -19,7 +19,7 @@ api('/api/projects/' + encodeURIComponent(id))
       <div class="breadcrumbs"><a href="/">Главная</a> / <a href="/projects">Проекты</a> / ${esc(p.title)}</div>
       <div class="project">
         <div>
-          <img class="gallery__main" src="${esc(photos[0])}" alt="${esc(p.title)}">
+          <div class="gallery__stage"><img class="gallery__main" src="${esc(photos[0])}" alt="${esc(p.title)}"></div>
           ${photos.length > 1 ? `<div class="gallery__thumbs">${photos
             .map((ph, i) => `<button class="${i ? '' : 'active'}" data-i="${i}"><img src="${esc(ph)}" alt="" loading="lazy"></button>`)
             .join('')}</div>` : ''}
@@ -29,10 +29,10 @@ api('/api/projects/' + encodeURIComponent(id))
           <ul class="specs">${specs.map(([k, v]) => `<li><span>${k}</span><span>${esc(v)}</span></li>`).join('')}</ul>
           <div class="calc__total" style="color:var(--brand)">${p.price ? 'от ' + money(p.price) : 'Цена по запросу'}</div>
           <p class="muted">Стоимость строительства</p>
-          <button class="btn btn--block" data-open-callback="Проект: ${esc(p.title)}">Хочу такой дом</button>
+          <button class="btn btn--block" data-open-callback="Проект: ${esc(p.title)}">Хочу такой дом <span class="btn__arrow">→</span></button>
         </aside>
       </div>
-      ${p.description ? `<div style="max-width:820px;margin-top:48px"><h2>Описание проекта</h2><div class="project__desc">${esc(p.description)}</div></div>` : ''}`;
+      ${p.description ? `<div class="project__about" style="max-width:820px;margin-top:56px"><h2>Описание проекта</h2><div class="project__desc">${esc(p.description)}</div></div>` : ''}`;
 
     // Галерея и лайтбокс
     let cur = 0;
@@ -41,8 +41,15 @@ api('/api/projects/' + encodeURIComponent(id))
     const lbImg = lb.querySelector('img');
     const show = (i) => {
       cur = (i + photos.length) % photos.length;
-      main.src = photos[cur];
       lbImg.src = photos[cur];
+      // мягкая смена главного фото
+      main.classList.add('swap');
+      clearTimeout(main._swap);
+      main._swap = setTimeout(() => {
+        main.src = photos[cur];
+        main.decode?.().catch(() => {}).finally(() => main.classList.remove('swap'));
+        if (!main.decode) main.classList.remove('swap');
+      }, 200);
       root.querySelectorAll('.gallery__thumbs button').forEach((b, j) => b.classList.toggle('active', j === cur));
     };
     root.querySelector('.gallery__thumbs')?.addEventListener('click', (e) => {

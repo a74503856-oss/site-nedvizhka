@@ -13,6 +13,20 @@ settingsPromise.then((s) => {
     a.href = 'mailto:' + (s.email || '');
   });
 
+  // заголовок появляется по словам
+  const h1 = document.querySelector('[data-split]');
+  if (window.Motion) Motion.split(h1);
+  else h1?.classList.add('split');
+
+  // Плашка на фото «О компании» — первая цифра из настроек
+  const first = (s.stats || [])[0];
+  const badge = document.querySelector('[data-badge]');
+  if (first && badge) {
+    badge.querySelector('b').textContent = first.value;
+    badge.querySelector('span').textContent = first.label;
+    badge.classList.remove('hidden');
+  }
+
   document.querySelector('[data-stats]').innerHTML = (s.stats || [])
     .map((x) => `<div class="stat"><div class="stat__value">${esc(x.value)}</div><div class="stat__label">${esc(x.label)}</div></div>`)
     .join('');
@@ -34,7 +48,7 @@ api('/api/projects')
     const photo = list.find((p) => p.photos?.length);
     if (photo) {
       document.querySelector('[data-about-img]').src = photo.photos[0];
-      document.querySelector('.hero').style.setProperty('--hero-img', `url("${photo.photos[0]}")`);
+      document.querySelector('.hero').style.setProperty('--hero-img', `url("${encodeURI(photo.photos[0])}")`);
     }
   })
   .catch(() => document.querySelector('[data-latest-wrap]').classList.add('hidden'));
@@ -85,7 +99,10 @@ function initCalculator(cfg) {
   function update() {
     const r = calc();
     areaOut.textContent = `${r.a} м²`;
-    document.getElementById('calc-total').textContent = money(r.total);
+    area.style.setProperty('--fill', ((r.a - area.min) / (area.max - area.min)) * 100 + '%');
+    const totalEl = document.getElementById('calc-total');
+    if (window.Motion) Motion.tween(totalEl, r.total, money);
+    else totalEl.textContent = money(r.total);
     document.getElementById('calc-per').textContent = r.a ? `≈ ${money(r.total / r.a)} за м²` : '';
     document.getElementById('calc-breakdown').innerHTML = [
       [`Дом ${r.a} м²${r.mat ? ', ' + r.mat.name.toLowerCase() : ''}`, r.house],

@@ -1,5 +1,5 @@
 /* Админ-панель */
-body.admin { background: var(--bg-alt); }
+body.admin { background: var(--bg-alt); padding-top: 0; }
 .login { min-height: 100vh; display: grid; place-items: center; padding: 16px; }
 .login .card { width: 100%; max-width: 380px; }
 
@@ -24,7 +24,7 @@ body.admin { background: var(--bg-alt); }
 .main .card { margin-bottom: 20px; padding: 24px; }
 .main h4 { margin: 20px 0 10px; font-family: var(--font-head); }
 
-.form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; align-items: end; }
 .form-grid .wide { grid-column: 1 / -1; }
 .check { display: flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer; }
 .check input { width: 18px; height: 18px; accent-color: var(--brand); }

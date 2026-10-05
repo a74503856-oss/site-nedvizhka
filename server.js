@@ -496,6 +496,15 @@ app.get('/projects/:id', page('project.html'));
 app.get('/video', page('video.html'));
 app.get('/admin', page('admin/index.html'));
 
+// Сторонние библиотеки отдаём со своего сервера (не зависим от CDN)
+const vendor = {
+  'lenis.min.js': path.join(__dirname, 'node_modules/lenis/dist/lenis.min.js'),
+  'hls.min.js': path.join(__dirname, 'node_modules/hls.js/dist/hls.min.js')
+};
+app.get('/vendor/:file', (req, res, next) =>
+  vendor[req.params.file] ? res.sendFile(vendor[req.params.file], { maxAge: '7d' }) : next()
+);
+
 app.use(express.static(PUBLIC_DIR, { extensions: ['html'], maxAge: '1h' }));
 app.use((req, res) => res.status(404).sendFile(path.join(PUBLIC_DIR, '404.html')));
 

@@ -68,7 +68,7 @@ function renderLayout(s) {
   if (!document.getElementById('callback-modal')) {
     document.body.insertAdjacentHTML(
       'beforeend',
-      `<div class="modal" id="callback-modal" role="dialog" aria-modal="true" aria-labelledby="cb-title">
+      `<div class="modal" id="callback-modal" data-lenis-prevent role="dialog" aria-modal="true" aria-labelledby="cb-title">
         <div class="modal__box">
           <button class="modal__close" aria-label="Закрыть" data-close>×</button>
           <h3 id="cb-title">Заказать звонок</h3>
@@ -77,7 +77,7 @@ function renderLayout(s) {
             <input class="form__hp" name="website" tabindex="-1" autocomplete="off">
             <label class="field"><span>Имя</span><input type="text" name="name" required maxlength="100"></label>
             <label class="field"><span>Телефон</span><input type="tel" name="phone" required placeholder="+7 (___) ___-__-__"></label>
-            <button class="btn btn--block" type="submit">Жду звонка</button>
+            <button class="btn btn--block" type="submit">Жду звонка <span class="btn__arrow">→</span></button>
             <div class="form__agree">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</div>
           </form>
         </div>
@@ -138,9 +138,12 @@ function projectCard(p) {
   ].filter(Boolean);
   return `
     <a class="project-card" href="/projects/${encodeURIComponent(p.id)}">
-      <img class="project-card__img" loading="lazy" src="${esc(p.photos?.[0] || '/img/placeholder.svg')}" alt="${esc(p.title)}">
+      <div class="project-card__media">
+        <img class="project-card__img" loading="lazy" src="${esc(p.photos?.[0] || '/img/placeholder.svg')}" alt="${esc(p.title)}">
+        ${p.material ? `<span class="badge">${esc(p.material)}</span>` : ''}
+        <div class="project-card__more"><span>Подробнее</span><span>→</span></div>
+      </div>
       <div class="project-card__body">
-        ${p.material ? `<div style="margin-bottom:8px"><span class="badge">${esc(p.material)}</span></div>` : ''}
         <h3>${esc(p.title)}</h3>
         <div class="project-card__meta">${meta.map((m) => `<span>${m}</span>`).join('')}</div>
         <div class="project-card__price">${p.price ? 'от ' + money(p.price) : 'Цена по запросу'}</div>
