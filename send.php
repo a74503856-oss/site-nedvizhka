@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 $config = require __DIR__ . '/config.php';
+date_default_timezone_set('Europe/Moscow');
 $wantsJson = str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json');
 
 function respond(bool $ok, string $error = ''): void
@@ -53,15 +54,36 @@ $text = "Новая заявка с сайта\n\n"
 $sent = false;
 
 // Telegram
-if ($config['tg_token'] !== '' && $config['tg_chat_id'] !== '') {
+function httpPost(string $url, array $fields): string|false
+{
+    // cURL есть почти на любом хостинге; если нет — пробуем через file_get_contents
+    if (function_exists('curl_init')) {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => http_build_query($fields),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 10,
+        ]);
+        $res = curl_exec($ch);
+        curl_close($ch);
+        return is_string($res) ? $res : false;
+    }
     $ctx = stream_context_create(['http' => [
         'method'  => 'POST',
         'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
-        'content' => http_build_query(['chat_id' => $config['tg_chat_id'], 'text' => $text]),
+        'content' => http_build_query($fields),
         'timeout' => 10,
         'ignore_errors' => true,
     ]]);
-    $res = @file_get_contents('https://api.telegram.org/bot' . $config['tg_token'] . '/sendMessage', false, $ctx);
+    return @file_get_contents($url, false, $ctx);
+}
+
+if ($config['tg_token'] !== '' && $config['tg_chat_id'] !== '') {
+    $res = httpPost(
+        'https://api.telegram.org/bot' . $config['tg_token'] . '/sendMessage',
+        ['chat_id' => $config['tg_chat_id'], 'text' => $text]
+    );
     if ($res !== false && (json_decode($res, true)['ok'] ?? false)) {
         $sent = true;
     }
