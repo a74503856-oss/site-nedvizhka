@@ -19,8 +19,9 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Inter:wght@400;500;600&display=swap&subset=cyrillic" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap&subset=cyrillic" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js')</script>
 
   <script type="application/ld+json">
   {
@@ -59,9 +60,14 @@
 </head>
 <body>
 
+<div class="progress" aria-hidden="true"><span></span></div>
+
 <header class="header">
   <div class="container header__inner">
-    <a href="#top" class="logo">Анна Соколова<span>психолог</span></a>
+    <a href="#top" class="logo">
+      <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19"/><path d="M20 30c-6-4.5-10-8.2-10-13a6 6 0 0 1 10-3.8A6 6 0 0 1 30 17c0 4.8-4 8.5-10 13z"/></svg>
+      <span class="logo__text">Анна Соколова<small>психолог</small></span>
+    </a>
     <button class="nav-toggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
       <span></span><span></span><span></span>
     </button>
@@ -81,38 +87,68 @@
 
   <!-- Первый экран -->
   <section class="hero">
+    <div class="hero__bg" aria-hidden="true">
+      <span class="blob blob--1"></span>
+      <span class="blob blob--2"></span>
+      <span class="blob blob--3"></span>
+    </div>
     <div class="container hero__inner">
       <div class="hero__text">
-        <p class="eyebrow">Психолог в Ярославле · очно и онлайн</p>
-        <h1>Анна Соколова — психолог в&nbsp;Ярославле</h1>
-        <p class="hero__lead">Помогаю справиться с тревогой, выйти из кризиса, наладить отношения и вернуть опору в себе. Бережно, конфиденциально, без оценок.</p>
-        <div class="hero__actions">
-          <a href="#form" class="btn">Записаться на консультацию</a>
+        <p class="eyebrow hero__anim" style="--d:.05s"><span class="dot"></span>Психолог в Ярославле · очно и онлайн</p>
+        <h1 class="hero__anim" style="--d:.15s">Анна Соколова — психолог в&nbsp;Ярославле</h1>
+        <p class="hero__lead hero__anim" style="--d:.3s">Помогаю справиться с&nbsp;тревогой, выйти из&nbsp;кризиса, наладить отношения и&nbsp;вернуть опору в&nbsp;себе. <em>Бережно, конфиденциально, без&nbsp;оценок.</em></p>
+        <div class="hero__actions hero__anim" style="--d:.45s">
+          <a href="#form" class="btn btn--arrow">Записаться на консультацию
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
           <a href="#prices" class="btn btn--ghost">Форматы и цены</a>
         </div>
-        <ul class="hero__facts">
-          <li><strong>10 лет</strong> практики</li>
-          <li><strong>2000+</strong> часов консультаций</li>
-          <li><strong>50 мин</strong> одна встреча</li>
+        <ul class="hero__facts hero__anim" style="--d:.6s">
+          <li><strong><span data-count="10">10</span> лет</strong> практики</li>
+          <li><strong><span data-count="2000">2000</span>+</strong> часов консультаций</li>
+          <li><strong><span data-count="50">50</span> мин</strong> одна встреча</li>
         </ul>
       </div>
-      <div class="hero__photo">
-        <!-- Замените на фото: <img src="img/photo.jpg" alt="Психолог Анна Соколова" width="480" height="600"> -->
-        <div class="photo-placeholder" role="img" aria-label="Фото психолога Анны Соколовой">АС</div>
+      <div class="hero__photo hero__anim" style="--d:.25s">
+        <div class="hero__arch" data-parallax="0.06">
+          <!-- Замените на фото: <img src="img/photo.jpg" alt="Психолог Анна Соколова" width="480" height="600"> -->
+          <div class="photo-placeholder" role="img" aria-label="Фото психолога Анны Соколовой">АС</div>
+        </div>
+        <svg class="hero__ring" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="96"/></svg>
+        <div class="float-card float-card--1">
+          <span class="float-card__icon"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/></svg></span>
+          <span><b>Бережно</b>без оценок и советов «сверху»</span>
+        </div>
+        <div class="float-card float-card--2">
+          <span class="pulse"></span>
+          <span><b>Есть окна</b>на этой неделе</span>
+        </div>
       </div>
     </div>
+    <a href="#about" class="scroll-hint" aria-label="Листать вниз"><span></span></a>
   </section>
+
+  <!-- Бегущая строка -->
+  <div class="marquee-wrap" aria-hidden="true"><div class="marquee">
+    <div class="marquee__track">
+      <span>тревога</span><span>отношения</span><span>самооценка</span><span>выгорание</span><span>кризисы</span><span>утрата</span><span>поиск себя</span><span>панические атаки</span>
+      <span>тревога</span><span>отношения</span><span>самооценка</span><span>выгорание</span><span>кризисы</span><span>утрата</span><span>поиск себя</span><span>панические атаки</span>
+    </div>
+  </div></div>
 
   <!-- Обо мне -->
   <section class="section" id="about">
     <div class="container about">
-      <div>
+      <div data-reveal>
+        <p class="kicker">Знакомство</p>
         <h2>Обо мне</h2>
         <p>Меня зовут Анна, я практикующий психолог. Работаю с взрослыми в интегративном подходе: когнитивно-поведенческая терапия, эмоционально-фокусированная терапия и элементы гештальт-подхода. Подбираю методы под ваш запрос, а не наоборот.</p>
         <p>Для меня важно, чтобы на консультации было безопасно: можно говорить о чём угодно, в своём темпе. Всё, что вы рассказываете, остаётся между нами.</p>
+        <p class="signature">Анна Соколова</p>
       </div>
-      <div class="about__cols">
-        <div class="card">
+      <div class="about__cols" data-reveal-group>
+        <div class="card" data-reveal>
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></span>
           <h3>Образование</h3>
           <ul class="list">
             <li>ЯрГУ им. П.Г. Демидова, факультет психологии — диплом психолога</li>
@@ -121,7 +157,8 @@
             <li>Регулярная супервизия и личная терапия</li>
           </ul>
         </div>
-        <div class="card">
+        <div class="card" data-reveal>
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg></span>
           <h3>Опыт</h3>
           <ul class="list">
             <li>10 лет частной практики</li>
@@ -137,45 +174,74 @@
   <!-- Запросы -->
   <section class="section section--tinted" id="requests">
     <div class="container">
-      <h2>С какими запросами я работаю</h2>
-      <p class="section__lead">Если вы узнаёте себя хотя бы в одном пункте — приходите, разберёмся вместе.</p>
-      <div class="grid grid--3">
-        <article class="tile">
+      <div class="section__head" data-reveal>
+        <p class="kicker">Чем могу помочь</p>
+        <h2>С какими запросами я работаю</h2>
+        <p class="section__lead">Если вы узнаёте себя хотя бы в одном пункте — приходите, разберёмся вместе.</p>
+      </div>
+      <div class="grid grid--3" data-reveal-group>
+        <article class="tile" data-reveal>
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 12h3l2-5 4 10 2-5h7"/></svg></span>
           <h3>Тревога и панические атаки</h3>
           <p>Постоянное беспокойство, напряжение, навязчивые мысли, трудности со сном.</p>
         </article>
-        <article class="tile">
+        <article class="tile" data-reveal>
+          <span class="icon"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2 20c0-3.3 2.7-6 6-6 1.5 0 2.9.6 4 1.5A6 6 0 0 1 22 20"/></svg></span>
           <h3>Отношения</h3>
           <p>Конфликты в паре, расставание, ревность, одиночество, сложности с близкими.</p>
         </article>
-        <article class="tile">
+        <article class="tile" data-reveal>
+          <span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
           <h3>Самооценка</h3>
           <p>Неуверенность, самокритика, страх ошибки, сложно говорить «нет».</p>
         </article>
-        <article class="tile">
+        <article class="tile" data-reveal>
+          <span class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 11v2M6 11v2"/></svg></span>
           <h3>Выгорание и стресс</h3>
           <p>Усталость, потеря смысла и интереса к работе, раздражительность.</p>
         </article>
-        <article class="tile">
+        <article class="tile" data-reveal>
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 22V12"/><path d="M12 12C12 7 8 4 3 4c0 5 4 8 9 8z"/><path d="M12 15c0-4 3-7 9-7 0 4-3 7-9 7z"/></svg></span>
           <h3>Кризисы и утраты</h3>
           <p>Развод, переезд, потеря близкого, перемены, после которых сложно найти опору.</p>
         </article>
-        <article class="tile">
+        <article class="tile" data-reveal>
+          <span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8l-2 6-6 2 2-6z"/></svg></span>
           <h3>Поиск себя</h3>
           <p>Непонимание своих желаний, выбор пути, ощущение «живу не свою жизнь».</p>
         </article>
       </div>
-      <p class="note">Я не работаю с острыми психиатрическими состояниями и зависимостями — в этих случаях порекомендую профильного специалиста.</p>
+      <p class="note" data-reveal>Я не работаю с острыми психиатрическими состояниями и зависимостями — в этих случаях порекомендую профильного специалиста.</p>
+    </div>
+  </section>
+
+  <!-- Как проходит работа -->
+  <section class="section" id="steps">
+    <div class="container">
+      <div class="section__head" data-reveal>
+        <p class="kicker">Как всё устроено</p>
+        <h2>Как проходит работа</h2>
+      </div>
+      <ol class="steps" data-reveal-group>
+        <li data-reveal><span class="steps__num">1</span><h3>Заявка</h3><p>Оставляете заявку или пишете в Telegram — я отвечаю в течение дня.</p></li>
+        <li data-reveal><span class="steps__num">2</span><h3>Первая встреча</h3><p>Знакомимся, обсуждаем запрос и решаем, подходим ли друг другу.</p></li>
+        <li data-reveal><span class="steps__num">3</span><h3>Регулярные сессии</h3><p>Раз в неделю, очно или онлайн, в комфортном для вас темпе.</p></li>
+        <li data-reveal><span class="steps__num">4</span><h3>Результат</h3><p>Вы замечаете изменения и чувствуете опору в себе.</p></li>
+      </ol>
     </div>
   </section>
 
   <!-- Формат и стоимость -->
-  <section class="section" id="prices">
+  <section class="section section--tinted" id="prices">
     <div class="container">
-      <h2>Формат и стоимость</h2>
-      <p class="section__lead">Консультация длится 50 минут. Обычно встречаемся раз в неделю.</p>
-      <div class="grid grid--3 prices">
-        <article class="price">
+      <div class="section__head" data-reveal>
+        <p class="kicker">Форматы</p>
+        <h2>Формат и стоимость</h2>
+        <p class="section__lead">Консультация длится 50 минут. Обычно встречаемся раз в неделю.</p>
+      </div>
+      <div class="grid grid--3 prices" data-reveal-group>
+        <article class="price" data-reveal>
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.1 7-12a7 7 0 0 0-14 0c0 5.9 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
           <h3>Очно в Ярославле</h3>
           <p class="price__value">4000 ₽</p>
           <ul class="list">
@@ -185,8 +251,9 @@
           </ul>
           <a href="#form" class="btn btn--ghost" data-format="Очно">Записаться очно</a>
         </article>
-        <article class="price price--accent">
+        <article class="price price--accent" data-reveal>
           <p class="price__badge">Первая встреча</p>
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/></svg></span>
           <h3>Знакомство</h3>
           <p class="price__value">3000 ₽</p>
           <ul class="list">
@@ -194,9 +261,10 @@
             <li>Разбираем запрос и цели</li>
             <li>Решаем, подходим ли мы друг другу</li>
           </ul>
-          <a href="#form" class="btn" data-format="Первая встреча">Записаться</a>
+          <a href="#form" class="btn btn--light" data-format="Первая встреча">Записаться</a>
         </article>
-        <article class="price">
+        <article class="price" data-reveal>
+          <span class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
           <h3>Онлайн</h3>
           <p class="price__value">3500 ₽</p>
           <ul class="list">
@@ -207,76 +275,84 @@
           <a href="#form" class="btn btn--ghost" data-format="Онлайн">Записаться онлайн</a>
         </article>
       </div>
-      <p class="note">Отмена или перенос — бесплатно не позднее чем за 24 часа до встречи.</p>
+      <p class="note" data-reveal>Отмена или перенос — бесплатно не позднее чем за 24 часа до встречи.</p>
     </div>
   </section>
 
   <!-- Отзывы -->
-  <section class="section section--tinted" id="reviews">
+  <section class="section" id="reviews">
     <div class="container">
-      <h2>Отзывы клиентов</h2>
-      <p class="section__lead">Публикуются с разрешения, имена изменены.</p>
-      <div class="grid grid--3">
+      <div class="section__head" data-reveal>
+        <p class="kicker">Отзывы</p>
+        <h2>Что говорят клиенты</h2>
+        <p class="section__lead">Публикуются с разрешения, имена изменены.</p>
+      </div>
+      <div class="reviews" data-reveal>
         <figure class="review">
           <blockquote>«Пришла с паническими атаками, которые мешали ездить на работу. Через три месяца я снова спокойно пользуюсь транспортом. Спасибо за терпение и понятные техники».</blockquote>
-          <figcaption>Мария, 32 года</figcaption>
+          <figcaption><span class="avatar">М</span>Мария, 32 года</figcaption>
         </figure>
         <figure class="review">
           <blockquote>«После развода казалось, что всё рухнуло. На встречах с Анной я впервые почувствовал, что меня слышат. Сейчас я понимаю, куда двигаться дальше».</blockquote>
-          <figcaption>Алексей, 41 год</figcaption>
+          <figcaption><span class="avatar">А</span>Алексей, 41 год</figcaption>
         </figure>
         <figure class="review">
           <blockquote>«Занимаемся онлайн, я живу в другом городе. Очень бережный и профессиональный подход. Научилась замечать свои потребности и говорить о них».</blockquote>
-          <figcaption>Екатерина, 27 лет</figcaption>
+          <figcaption><span class="avatar">Е</span>Екатерина, 27 лет</figcaption>
         </figure>
       </div>
+      <div class="reviews__dots" aria-hidden="true"></div>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section class="section" id="faq">
+  <section class="section section--tinted" id="faq">
     <div class="container container--narrow">
-      <h2>Частые вопросы</h2>
-      <div class="faq">
-        <details>
+      <div class="section__head section__head--center" data-reveal>
+        <p class="kicker">FAQ</p>
+        <h2>Частые вопросы</h2>
+      </div>
+      <div class="faq" data-reveal-group>
+        <details data-reveal>
           <summary>Как понять, что мне нужен психолог?</summary>
-          <p>Если что-то беспокоит вас дольше нескольких недель, мешает работать, общаться или радоваться жизни — это достаточный повод. Не нужно ждать, пока станет «совсем плохо».</p>
+          <div class="faq__body"><p>Если что-то беспокоит вас дольше нескольких недель, мешает работать, общаться или радоваться жизни — это достаточный повод. Не нужно ждать, пока станет «совсем плохо».</p></div>
         </details>
-        <details>
+        <details data-reveal>
           <summary>Сколько нужно встреч?</summary>
-          <p>Зависит от запроса. Конкретную ситуацию иногда можно разобрать за 3–5 встреч, более глубокие изменения занимают от нескольких месяцев. На первой встрече мы обсудим примерный план.</p>
+          <div class="faq__body"><p>Зависит от запроса. Конкретную ситуацию иногда можно разобрать за 3–5 встреч, более глубокие изменения занимают от нескольких месяцев. На первой встрече мы обсудим примерный план.</p></div>
         </details>
-        <details>
+        <details data-reveal>
           <summary>Чем психолог отличается от психиатра и психотерапевта?</summary>
-          <p>Психолог не ставит диагнозы и не назначает лекарства, а помогает через беседу и психологические методы. Психиатр — врач, который может назначить медикаментозное лечение. Если я увижу, что вам нужна помощь врача, я честно об этом скажу.</p>
+          <div class="faq__body"><p>Психолог не ставит диагнозы и не назначает лекарства, а помогает через беседу и психологические методы. Психиатр — врач, который может назначить медикаментозное лечение. Если я увижу, что вам нужна помощь врача, я честно об этом скажу.</p></div>
         </details>
-        <details>
+        <details data-reveal>
           <summary>Это конфиденциально?</summary>
-          <p>Да. Всё, что вы рассказываете, остаётся между нами. Исключение — только прямая угроза жизни, о чём я предупреждаю на первой встрече.</p>
+          <div class="faq__body"><p>Да. Всё, что вы рассказываете, остаётся между нами. Исключение — только прямая угроза жизни, о чём я предупреждаю на первой встрече.</p></div>
         </details>
-        <details>
+        <details data-reveal>
           <summary>Онлайн-консультация так же эффективна, как очная?</summary>
-          <p>Исследования показывают сопоставимую эффективность. Главное — найти спокойное место, где вас никто не услышит, и стабильный интернет.</p>
+          <div class="faq__body"><p>Исследования показывают сопоставимую эффективность. Главное — найти спокойное место, где вас никто не услышит, и стабильный интернет.</p></div>
         </details>
-        <details>
+        <details data-reveal>
           <summary>Как проходит оплата?</summary>
-          <p>Оплата переводом или наличными в день встречи. Онлайн-консультации оплачиваются заранее, реквизиты я пришлю после записи.</p>
+          <div class="faq__body"><p>Оплата переводом или наличными в день встречи. Онлайн-консультации оплачиваются заранее, реквизиты я пришлю после записи.</p></div>
         </details>
       </div>
     </div>
   </section>
 
   <!-- Контакты и форма -->
-  <section class="section section--tinted" id="contacts">
+  <section class="section" id="contacts">
     <div class="container contacts">
-      <div class="contacts__info">
+      <div class="contacts__info" data-reveal>
+        <p class="kicker">Связаться</p>
         <h2>Контакты</h2>
         <ul class="contacts__list">
-          <li><span>Адрес</span>Ярославль, ул. Свободы, 1, офис 1</li>
-          <li><span>Телефон</span><a href="tel:+79000000000">+7 (900) 000-00-00</a></li>
-          <li><span>Telegram</span><a href="https://t.me/username" target="_blank" rel="noopener">@username</a></li>
-          <li><span>E-mail</span><a href="mailto:hello@example.ru">hello@example.ru</a></li>
-          <li><span>Часы приёма</span>Пн–Сб, 10:00–20:00 по записи</li>
+          <li><span class="icon icon--sm"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.1 7-12a7 7 0 0 0-14 0c0 5.9 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><span>Адрес</span>Ярославль, ул. Свободы, 1, офис 1</div></li>
+          <li><span class="icon icon--sm"><svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg></span><div><span>Телефон</span><a href="tel:+79000000000">+7 (900) 000-00-00</a></div></li>
+          <li><span class="icon icon--sm"><svg viewBox="0 0 24 24"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/></svg></span><div><span>Telegram</span><a href="https://t.me/username" target="_blank" rel="noopener">@username</a></div></li>
+          <li><span class="icon icon--sm"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><div><span>E-mail</span><a href="mailto:hello@example.ru">hello@example.ru</a></div></li>
+          <li><span class="icon icon--sm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><span>Часы приёма</span>Пн–Сб, 10:00–20:00 по записи</div></li>
         </ul>
         <div class="map">
           <iframe
@@ -286,7 +362,7 @@
         </div>
       </div>
 
-      <div class="contacts__form" id="form">
+      <div class="contacts__form" id="form" data-reveal>
         <h2>Записаться на консультацию</h2>
         <p class="section__lead">Оставьте заявку — я свяжусь с вами в течение дня, чтобы договориться о времени.</p>
         <form class="form" action="send.php" method="post" novalidate>
@@ -301,9 +377,9 @@
           <fieldset class="field">
             <legend>Формат</legend>
             <div class="radios">
-              <label><input type="radio" name="format" value="Очно" checked> Очно</label>
-              <label><input type="radio" name="format" value="Онлайн"> Онлайн</label>
-              <label><input type="radio" name="format" value="Первая встреча"> Первая встреча</label>
+              <label><input type="radio" name="format" value="Очно" checked><span>Очно</span></label>
+              <label><input type="radio" name="format" value="Онлайн"><span>Онлайн</span></label>
+              <label><input type="radio" name="format" value="Первая встреча"><span>Первая встреча</span></label>
             </div>
           </fieldset>
           <label class="field">
@@ -316,9 +392,17 @@
             <input type="checkbox" name="consent" value="1" required>
             <span>Согласен(на) на обработку персональных данных в соответствии с <a href="privacy.html" target="_blank">политикой конфиденциальности</a></span>
           </label>
-          <button type="submit" class="btn btn--block">Отправить заявку</button>
+          <button type="submit" class="btn btn--block btn--arrow">Отправить заявку
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
           <p class="form__status" role="status" aria-live="polite"></p>
         </form>
+        <div class="form__success" hidden>
+          <svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-15"/></svg>
+          <h3>Заявка отправлена</h3>
+          <p>Спасибо! Я свяжусь с вами в ближайшее время.</p>
+          <button type="button" class="btn btn--ghost btn--small form__again">Отправить ещё одну</button>
+        </div>
       </div>
     </div>
   </section>
@@ -332,6 +416,13 @@
     <p class="footer__crisis">Если есть угроза жизни — звоните <a href="tel:112">112</a>. Консультации психолога не заменяют экстренную помощь.</p>
   </div>
 </footer>
+
+<a href="#top" class="to-top" aria-label="Наверх">
+  <svg class="to-top__ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22"/></svg>
+  <svg class="to-top__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</a>
+
+<a href="#form" class="sticky-cta">Записаться</a>
 
 <script src="js/main.js" defer></script>
 </body>
