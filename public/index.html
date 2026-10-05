@@ -11,6 +11,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <script>
+    // Сайт работает только через сервер. Если файл открыт напрямую — показываем подсказку.
+    if (location.protocol === 'file:') document.addEventListener('DOMContentLoaded', function () {
+      document.body.innerHTML = '<div style="font:16px/1.6 system-ui,sans-serif;max-width:640px;margin:10vh auto;padding:32px;border-radius:16px;background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.12);color:#1f2428">' +
+        '<h1 style="margin:0 0 12px;font-size:26px">Сайт нужно запускать через сервер</h1>' +
+        '<p>Вы открыли файл напрямую, поэтому стили, проекты и калькулятор не загрузились.</p>' +
+        '<ol style="padding-left:20px"><li>Установите <a href="https://nodejs.org/ru/download">Node.js</a> (версия LTS), если ещё не установлен.</li>' +
+        '<li>В папке сайта дважды щёлкните <b>start-windows.bat</b> (Windows) или <b>start-mac.command</b> (Mac).</li>' +
+        '<li>Сайт откроется по адресу <b>http://localhost:3000</b>, админка — <b>http://localhost:3000/admin</b>.</li></ol></div>';
+      document.body.style.cssText = 'background:#f6f3ef;padding:16px;animation:none';
+    });
+  </script>
 </head>
 <body class="has-hero">
   <header class="header" data-header></header>
